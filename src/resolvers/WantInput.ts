@@ -2,7 +2,7 @@ import { Field, Float, InputType, Int } from "type-graphql";
 
 @InputType()
 export class CreateWantInput {
-  @Field()
+  @Field(() => String)
   name: string;
 
   @Field(() => String, { nullable: true })

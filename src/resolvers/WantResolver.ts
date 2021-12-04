@@ -1,11 +1,6 @@
-import { CreateWantInput, UpdateWantInput } from './WantInput';
+import { CreateWantInput, UpdateWantInput } from "./WantInput";
 import { Want } from "../entity/Want";
-import {
-  Arg,
-  Mutation,
-  Query,
-  Resolver,
-} from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()
 export class WantResolver {
@@ -15,7 +10,9 @@ export class WantResolver {
   }
 
   @Mutation(() => Want)
-  async createWant(@Arg("options", () => CreateWantInput) options: CreateWantInput) {
+  async createWant(
+    @Arg("options", () => CreateWantInput) options: CreateWantInput
+  ) {
     const want = await Want.create(options).save();
     return want;
   }
@@ -32,11 +29,8 @@ export class WantResolver {
   }
 
   @Mutation(() => String)
-  async removeWant(
-    @Arg("id", () => String) id: string,
-  ) {
+  async removeWant(@Arg("id", () => String) id: string) {
     await Want.delete({ id });
-    return `Deleted ${id}`
+    return `Deleted ${id}`;
   }
-
 }

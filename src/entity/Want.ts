@@ -1,5 +1,12 @@
+import { User } from "./User";
 import { Field, Float, Int, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @ObjectType()
 @Entity()
@@ -19,22 +26,16 @@ export class Want extends BaseEntity {
   source: string;
 
   @Field()
-  @Column({
-    nullable: true,
-  })
-  category: string;
-
-  @Field()
   @Column("date", {
     default: () => "(CURRENT_DATE)",
   })
   dateAdded: string;
 
-  @Field( () => Int)
+  @Field(() => Int)
   @Column()
   daysToDelay: number;
 
-  @Field( () => Float)
+  @Field(() => Float)
   @Column()
   price: number;
 
@@ -43,4 +44,7 @@ export class Want extends BaseEntity {
     nullable: true,
   })
   note: string;
+
+  @ManyToOne(() => User, (user) => user.wants)
+  user: User;
 }

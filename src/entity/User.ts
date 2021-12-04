@@ -1,16 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Want } from "./Want";
+import { ObjectType } from "type-graphql";
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+} from "typeorm";
+import { Field } from "type-graphql";
 
+@ObjectType()
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class User extends BaseEntity {
+  @Field() // For graphql-type
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   age: number;
+
+  @Field(() => [Want], { nullable: true })
+  @OneToMany(() => Want, (want) => want.user)
+  wants: Want[];
 }
