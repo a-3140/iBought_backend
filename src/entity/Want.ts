@@ -16,7 +16,7 @@ export class Want extends BaseEntity {
   @Column({
     nullable: true,
   })
-  shopName: string;
+  source: string;
 
   @Field()
   @Column({

@@ -21,7 +21,7 @@ export class CreateWantInput {
   note: string;
 
   @Field(() => String, { nullable: true })
-  shopName: string;
+  source: string;
 }
 
 @InputType()
@@ -45,5 +45,5 @@ export class UpdateWantInput {
   note: string;
 
   @Field(() => String, { nullable: true })
-  shopName: string;
+  source: string;
 }
