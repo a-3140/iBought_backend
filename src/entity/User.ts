@@ -29,6 +29,9 @@ export class User extends BaseEntity {
   age: number;
 
   @Field(() => [Want], { nullable: true })
-  @OneToMany(() => Want, (want) => want.user)
+  @OneToMany(() => Want, (want) => want.user, {
+    // Allows wants to be added through User entitiy
+    cascade: true,
+  })
   wants: Want[];
 }
