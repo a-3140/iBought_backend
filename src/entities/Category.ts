@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 
 @ObjectType()
-@Entity()
+@Entity("category")
 export class Category extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
