@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 import { Want } from "./Want";
 import { ObjectType } from "type-graphql";
 import {
@@ -34,4 +35,10 @@ export class User extends BaseEntity {
     cascade: true,
   })
   wants: Want[];
+
+  @Field(() => [Category], { nullable: true })
+  @OneToMany(() => Category, (category) => category.user, {
+    cascade: true,
+  })
+  categories: Category[];
 }
