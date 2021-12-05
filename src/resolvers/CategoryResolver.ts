@@ -23,6 +23,9 @@ export class CategoryResolver {
       { relations: ["categories"] }
     );
     const category = Category.create(data);
+    if (user && user?.categories.length > 9) {
+      throw new Error("Currently maximum number of categories for user is 10");
+    }
     user?.categories.push(category);
     await user?.save();
     return category;
