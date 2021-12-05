@@ -3,6 +3,9 @@ import { Field, Float, InputType, Int } from "type-graphql";
 @InputType()
 export class CreateWantInput {
   @Field(() => String)
+  user_id: string;
+
+  @Field(() => String)
   name: string;
 
   @Field(() => String, { nullable: true })

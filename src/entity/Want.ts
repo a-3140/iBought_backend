@@ -45,6 +45,11 @@ export class Want extends BaseEntity {
   })
   note: string;
 
-  @ManyToOne(() => User, (user) => user.wants)
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.wants, {
+    cascade: true,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
   user: User;
 }

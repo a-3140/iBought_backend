@@ -1,10 +1,9 @@
-import { UserResolver } from "./resolvers/UserResolver";
 import "reflect-metadata";
 import { createConnection, getConnectionOptions } from "typeorm";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { WantResolver } from "./resolvers/WantResolver";
+import { WantResolver, UserResolver } from "./resolvers";
 // const cors = require(`cors`);
 
 (async () => {

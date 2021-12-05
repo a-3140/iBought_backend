@@ -11,3 +11,15 @@ export class CreateUserInput {
   @Field(() => Number, { nullable: true })
   age: number;
 }
+
+@InputType()
+export class UpdateUserInput {
+  @Field(() => String, { nullable: true })
+  firstName: string;
+
+  @Field(() => String, { nullable: true })
+  lastName: string;
+
+  @Field(() => Number, { nullable: true })
+  age: number;
+}

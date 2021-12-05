@@ -1,32 +1,33 @@
+import { UpdateUserInput } from "./UserInput";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { getConnection } from "typeorm";
 import { User } from "./../entity/User";
-import { Want } from "./../entity/Want";
 import { CreateUserInput } from "./UserInput";
 
 @Resolver()
 export class UserResolver {
-  @Query(() => [User])
-  users() {
-    return User.find();
-  }
-
+  // Use get getRepository if innerJoin is needed
   @Query(() => User)
-  //   async userById(@Arg("id", () => String) id: string) {
-  async userss() {
-    const connection = getConnection();
-    const wantRepository = connection.getRepository(Want);
-    const user = await wantRepository.find({ relations: ["wants"] });
-    // return await this.wantRepository.find({
-    //   relations: ["images", "user"],
-    //   where: { user: { id: id } },
-    // });
-    return user;
+  getUserOnlyById(@Arg("id", () => String) id: string) {
+    return User.findOne({
+      cache: true,
+      where: { id: id },
+    });
   }
 
   @Mutation(() => User)
   async createUser(@Arg("data", () => CreateUserInput) data: CreateUserInput) {
     const user = await User.create(data).save();
     return user;
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Arg("id", () => String) id: string,
+    @Arg("data", () => UpdateUserInput) data: UpdateUserInput
+  ) {
+    await User.update({ id: id }, data);
+    return User.findOne({
+      where: { id: id },
+    });
   }
 }

@@ -5,26 +5,33 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 @Resolver()
 export class WantResolver {
   @Query(() => [Want])
-  wants() {
-    return Want.find();
+  getWantsByUserId(@Arg("id", () => String) id: string) {
+    return Want.find({
+      cache: true,
+      relations: ["user"],
+      where: { user_id: id },
+    });
   }
 
   @Mutation(() => Want)
-  async createWant(
-    @Arg("options", () => CreateWantInput) options: CreateWantInput
+  async addWantByUser(
+    @Arg("data", () => CreateWantInput) data: CreateWantInput
   ) {
-    const want = await Want.create(options).save();
+    const want = await Want.create(data).save();
     return want;
   }
 
+  // Currently returning updated object
+  // * Might change depending on frontend implementation of update
   @Mutation(() => Want)
   async updateWant(
-    @Arg("id", () => String) id: string,
+    @Arg("itemId", () => String) itemId: string,
     @Arg("data", () => UpdateWantInput) data: UpdateWantInput
   ) {
-    await Want.update({ id }, data);
+    const current = Want.findOne({ id: itemId });
+    await Want.update({ id: itemId }, { ...current, ...data });
     return Want.findOne({
-      where: { id },
+      where: { id: itemId },
     });
   }
 
