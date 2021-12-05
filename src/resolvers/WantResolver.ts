@@ -40,9 +40,13 @@ export class WantResolver {
     });
   }
 
-  @Mutation(() => String)
+  @Mutation(() => Boolean)
   async removeWantByItemId(@Arg("id", () => String) id: string) {
-    await Want.delete({ id });
-    return `Deleted ${id}`;
+    const want = await Want.findOne({ id: id });
+    if (!want) {
+      throw new Error(`The item with id: ${id} does not exist!`);
+    }
+    await Want.delete({ id: id });
+    return true;
   }
 }
