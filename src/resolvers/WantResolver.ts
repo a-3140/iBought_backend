@@ -1,6 +1,5 @@
-import { CreateWantInput, UpdateWantInput } from "./WantInput";
-import { Want } from "../entity/Want";
-import { User } from "../entity/User";
+import { Want, User } from "../entities";
+import { CreateWantInput, UpdateWantInput } from "./Inputs";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver()

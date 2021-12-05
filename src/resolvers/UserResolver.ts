@@ -1,7 +1,6 @@
-import { UpdateUserInput } from "./UserInput";
+import { UpdateUserInput, CreateUserInput } from "./Inputs";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { User } from "./../entity/User";
-import { CreateUserInput } from "./UserInput";
+import { User } from "../entities";
 
 @Resolver()
 export class UserResolver {
