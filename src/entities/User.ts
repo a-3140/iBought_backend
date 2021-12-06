@@ -13,9 +13,17 @@ import { Field } from "type-graphql";
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field() // For graphql-type
+  @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @Field()
+  @Column()
+  email: string;
+
+  @Field()
+  @Column()
+  password: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -24,10 +32,6 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   lastName: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  age: number;
 
   @Field(() => [Want], { nullable: true })
   @OneToMany(() => Want, (want) => want.user, {
