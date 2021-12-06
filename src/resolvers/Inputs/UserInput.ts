@@ -5,11 +5,14 @@ export class CreateUserInput {
   @Field(() => String)
   firstName: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   lastName: string;
 
-  @Field(() => Number, { nullable: true })
-  age: number;
+  @Field(() => String)
+  email: string;
+
+  @Field(() => String)
+  password: string;
 }
 
 @InputType()
@@ -20,6 +23,9 @@ export class UpdateUserInput {
   @Field(() => String, { nullable: true })
   lastName: string;
 
-  @Field(() => Number, { nullable: true })
-  age: number;
+  @Field(() => String, { nullable: true })
+  email: string;
+
+  @Field(() => String, { nullable: true })
+  password: string;
 }
