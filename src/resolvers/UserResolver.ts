@@ -1,6 +1,19 @@
-import { UpdateUserInput, CreateUserInput } from "./Inputs";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { UpdateUserInput, RegisterUserInput } from "./Inputs";
+import {
+  Arg,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { User } from "../entities";
+
+@ObjectType()
+class AuthResponse {
+  @Field()
+  accessToken: string;
+}
 
 @Resolver()
 export class UserResolver {
@@ -14,7 +27,9 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async createUser(@Arg("data", () => CreateUserInput) data: CreateUserInput) {
+  async Register(
+    @Arg("data", () => RegisterUserInput) data: RegisterUserInput
+  ) {
     const user = await User.create(data).save();
     return user;
   }
