@@ -8,6 +8,8 @@ import {
   Resolver,
 } from "type-graphql";
 import { User } from "../entities";
+import { hash, compare } from "bcryptjs";
+import { sign } from "jsonwebtoken";
 
 @ObjectType()
 class AuthResponse {
@@ -30,8 +32,33 @@ export class UserResolver {
   async Register(
     @Arg("data", () => RegisterUserInput) data: RegisterUserInput
   ) {
-    const user = await User.create(data).save();
+    const hashedPassword = await hash(data.password, 13);
+    const user = await User.create({
+      ...data,
+      password: hashedPassword,
+    }).save();
     return user;
+  }
+
+  @Mutation(() => AuthResponse)
+  async Login(@Arg("email") email: string, @Arg("password") password: string) {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      throw new Error("Could not find user");
+    }
+
+    const verify = compare(password, user.password);
+
+    if (!verify) {
+      throw new Error("Bad password");
+    }
+
+    return {
+      accessToken: sign({ userId: user.id }, "MySecretKey", {
+        expiresIn: "15m",
+      }),
+    };
   }
 
   @Mutation(() => User)
