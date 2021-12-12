@@ -4,7 +4,6 @@ import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { WantResolver, UserResolver, CategoryResolver } from "./resolvers";
-// const cors = require(`cors`);
 
 (async () => {
   const app = express();
@@ -30,7 +29,6 @@ import { WantResolver, UserResolver, CategoryResolver } from "./resolvers";
     },
   });
   const port = process.env.PORT || 4000;
-  // app.use(cors({ origin: true })); // not having cors enabled will cause an access control error
   app.listen(port, () => {
     console.log(`server started at http://localhost:${port}/graphql`);
   });
