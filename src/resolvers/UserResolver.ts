@@ -1,3 +1,4 @@
+import { isAuth } from './../middlewares/isAuthenticated';
 import { UpdateUserInput, RegisterUserInput } from "./Inputs";
 import {
   Arg,
@@ -6,6 +7,7 @@ import {
   ObjectType,
   Query,
   Resolver,
+  UseMiddleware,
 } from "type-graphql";
 import { User } from "../entities";
 import { hash, compare } from "bcryptjs";
@@ -19,6 +21,8 @@ class AuthResponse {
 
 @Resolver()
 export class UserResolver {
+  SECRET_KEY = process.env.SECRET_KEY || "";
+
   // Use get getRepository if innerJoin is needed
   @Query(() => User)
   getUserOnlyById(@Arg("id", () => String) id: string) {
@@ -55,13 +59,14 @@ export class UserResolver {
     }
 
     return {
-      accessToken: sign({ userId: user.id }, "MySecretKey", {
-        expiresIn: "15m",
+      accessToken: sign({ userId: user.id }, this.SECRET_KEY, {
+        expiresIn: "24h",
       }),
     };
   }
 
   @Mutation(() => User)
+  @UseMiddleware(isAuth)
   async updateUser(
     @Arg("id", () => String) id: string,
     @Arg("data", () => UpdateUserInput) data: UpdateUserInput
